@@ -138,7 +138,7 @@ return [
         ],
 
         'cache' => [
-            'url' => env('REDIS_URL'),
+            //'url' => env('REDIS_URL'),
             'scheme' => 'tls',
             'host' => env('AZURE_REDIS_HOST', '127.0.0.1'),
             'username' => env('REDIS_USERNAME'),
