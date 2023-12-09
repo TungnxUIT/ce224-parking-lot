@@ -10,7 +10,7 @@ class CardController extends Controller
     
     public function create(Request $request){
         $request->validate([
-            'card_uid' => ['required']
+            'card_uid' => ['required', 'unique:cards,card_uid']
         ]);
 
         $card = new Card;
@@ -28,4 +28,6 @@ class CardController extends Controller
         }
        // return view('admin.manage');
     }
+
+
 }

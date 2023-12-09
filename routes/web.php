@@ -27,7 +27,7 @@ Route::get('/user/{id}', [App\Http\Controllers\UserController::class, 'show'])->
 Route::get('/register-card/{id}', [App\Http\Controllers\UserController::class, 'getRegisterCard'])->name('get.registercard');
 Route::post('/register-card/{id}', [App\Http\Controllers\UserController::class, 'postRegisterCard'])->name('post.registercard');
 
-Route::get('/payment/{id}', [App\Http\Controllers\PaymentController::class, 'getPayment'])->name('get.payment');
-Route::post('/payment-momo/{id}', [App\Http\Controllers\PaymentController::class, 'payment_momo'])->name('post.momo');
-Route::get('/complete-payment-momo/{id}/{amount}', [App\Http\Controllers\PaymentController::class, 'complete_momo'])->name('payment.complete');
-Route::post('/delete-user-card/{cardId}/{id}', [App\Http\Controllers\UserController::class, 'deleteRegistedCard'])->name('delete.usercard');
+Route::get('/payment/{id}', [App\Http\Controllers\PaymentController::class, 'getPayment'])->name('get.payment')->middleware('auth');
+Route::post('/payment-momo/{id}', [App\Http\Controllers\PaymentController::class, 'payment_momo'])->name('post.momo')->middleware('auth');
+Route::get('/complete-payment-momo/{id}/{amount}', [App\Http\Controllers\PaymentController::class, 'complete_momo'])->name('payment.complete')->middleware('auth');
+Route::post('/delete-user-card/{cardId}/{id}', [App\Http\Controllers\UserController::class, 'deleteRegistedCard'])->name('delete.usercard')->middleware('auth');
