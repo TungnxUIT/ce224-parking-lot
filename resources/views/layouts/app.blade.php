@@ -92,6 +92,10 @@
 
                                     {{ __('Profile') }}
                                 </a>
+                                <a class="dropdown-item" href="{{ route('get.histories',['id' => Auth::user()->id]) }}">
+
+                                    {{ __('History') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

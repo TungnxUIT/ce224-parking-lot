@@ -33,3 +33,5 @@ Route::get('/payment/{id}', [App\Http\Controllers\PaymentController::class, 'get
 Route::post('/payment-momo/{id}', [App\Http\Controllers\PaymentController::class, 'payment_momo'])->name('post.momo')->middleware('auth');
 Route::get('/complete-payment-momo/{id}/{amount}', [App\Http\Controllers\PaymentController::class, 'complete_momo'])->name('payment.complete')->middleware('auth');
 Route::post('/delete-user-card/{cardId}/{id}', [App\Http\Controllers\UserController::class, 'deleteRegistedCard'])->name('delete.usercard')->middleware('auth');
+
+Route::get('/histories/{id}', [App\Http\Controllers\HistoryController::class, 'show'])->name('get.histories')->middleware('auth');

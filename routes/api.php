@@ -23,4 +23,3 @@ Route::get('/destroyCard', [App\Http\Controllers\CardController::class, 'destroy
 
 Route::post('/action', [App\Http\Controllers\ActionController::class, 'control'])->name('control.inout');
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'welcome']);
