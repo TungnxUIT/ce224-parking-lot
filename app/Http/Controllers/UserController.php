@@ -34,9 +34,9 @@ class UserController extends Controller
             $card->user_id = $user->id;
             $card->license_plates = $request->license_plates;
             $card->save();
-            return redirect()->route('profile', ['id' => $id]);
+            return redirect()->route('profile', ['id' => $id])->with('success', 'Card registered successfully.');
         }
-        return response()->json(['message' => 'Parking space not available'], 404);
+        return redirect()->route('profile', ['id' => $id])->with('error', 'Parking space not available.');
     }
 
     function deleteRegistedCard($cardId, $id)
