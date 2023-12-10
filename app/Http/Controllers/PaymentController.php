@@ -8,8 +8,9 @@ use App\Models\User;
 
 class PaymentController extends Controller
 {
-    public function getPayment($id){
-        return view('user.payment')->with(['id'=>$id]);
+    public function getPayment($id)
+    {
+        return view('user.payment')->with(['id' => $id]);
     }
     public function payment_momo(Request $request, $id)
     {
@@ -78,13 +79,16 @@ class PaymentController extends Controller
         // Handle the case where it's not a POST request
         return view('your_view_name');
     }
-    public function complete_momo($id, $amount)
+    public function complete_momo(Request $request, $id, $amount)
     {
-        $user = User::find($id);
-        if ($user) {
-            $user->balance += $amount;   
-            $user->save();
-            return redirect()->route('profile', ['id' => $id]);
-        } else return response()->json(['message' => 'Not found'], 404);
+        if ($request->message == "Successful.") {
+            $user = User::find($id);
+            if ($user) {
+                $user->balance += $amount;
+                $user->save();
+                return redirect()->route('profile', ['id' => $id]);
+            } else return response()->json(['message' => 'Not found'], 404);
+        }
+        return redirect()->route('profile', ['id' => $id]);
     }
 }
