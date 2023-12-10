@@ -30,6 +30,7 @@
                 <div class="card-body d-flex justify-content-between">
                     <ul>
                         <li><strong>Card ID:</strong> {{ $card->id }}</li>
+                        <li><strong>Card UID:</strong> {{ $card->card_uid }}</li>
                         <li><strong>License Plates:</strong> {{ $card->license_plates }}</li>
                         <li><strong>Status:</strong>
                             @if ($card->histories->isNotEmpty())

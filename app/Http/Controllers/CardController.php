@@ -18,7 +18,7 @@ class CardController extends Controller
         if($request->user_id) $card->user_id = $request->user_id;
         if($request->license_plates) $card->license_plates = $request->license_plates;
         $card->save();
-       return response()->json(['message'=>'Success']);
+       return response()->json($card);
     }
 
     public function destroy($id){
@@ -26,6 +26,7 @@ class CardController extends Controller
         if($card){
             $card->destroy($card);
         }
+        return response()->json(["message"=>"Success"]);
        // return view('admin.manage');
     }
 

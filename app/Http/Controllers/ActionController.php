@@ -19,21 +19,23 @@ class ActionController extends Controller
             ->where('license_plates', $request->license_plates)
             ->first();
 
+
         if ($card) {
+            $user = $card->user;
             $history = $card->histories->last();
             if ($history == null) {
                 $this->createHistory($history, $card, null);
-                return response()->json(['message' => 'Allowed']);
+                return response()->json(["user" => $user, 'message' => 'Allowed to get in']);
             } else if ($history->status == 'Out') {
                 $this->createHistory($history, $card, $history->status);
-                return response()->json(['message' => 'Allowed']);
+                return response()->json(["user" => $user,'message' => 'Allowed to get in']);
             } else if ($history->status == 'In') {
                 $message = $this->updateHistory($history, $card, $history->status);
                 if ($message == 1)
-                    return response()->json(['message' => 'Allowed']);
-                else return response()->json(['message' => 'Not Allowed, Please deposit more money into your account']);
+                    return response()->json(["user" => $user, 'message' => 'Allowed to get out']);
+                else return response()->json(["user" => $user, 'message' => 'Not Allowed to get out.', 'error'=>'Not enough money in account.']);
             }
-        } else return response()->json(['message' => 'Not Allowed, Card uid and license plate are not match']);
+        } else return response()->json(['message' => 'Not Allowed to get out.', 'error'=>'Card uid and license plate are not match.']);
     }
 
     protected function createHistory($history, $card, $status)
