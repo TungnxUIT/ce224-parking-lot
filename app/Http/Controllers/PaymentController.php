@@ -15,7 +15,7 @@ class PaymentController extends Controller
     public function payment_momo(Request $request, $id)
     {
         $request->validate([
-            'amount' => ['required']
+            'amount' => ['required', 'numeric', 'min:10000', 'max:50000000'],
         ]);
 
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";

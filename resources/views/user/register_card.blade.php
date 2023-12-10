@@ -15,6 +15,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             
+            <br>
             <div class="input-group-btn">
                 <button class="btn btn-danger" type="submit">Đăng ký</button>
             </div>
