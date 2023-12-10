@@ -19,5 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/createCard', [App\Http\Controllers\CardController::class, 'create'])->name('create.card');
+Route::get('/destroyCard', [App\Http\Controllers\CardController::class, 'destroy'])->name('destroy.card');
 
 Route::post('/action', [App\Http\Controllers\ActionController::class, 'control'])->name('control.inout');
