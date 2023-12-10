@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class ActionController extends Controller
 {
+    public function welcome(){
+        return response()->json(['message' => 'welcome']);
+    }
     public function control(Request $request)
     {
         $request->validate([
