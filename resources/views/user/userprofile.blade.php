@@ -40,9 +40,13 @@
                             @endif
                         </li>
                     </ul>
-                    <form action="{{ route('delete.usercard', ['id' => $user->id, 'cardId' => $card->id]) }}" method="POST">
+                    <form action="{{ route('delete.usercard', ['id' => $user->id, 'cardId' => $card->id]) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thẻ không? Tất cả thông tin về thẻ sẽ mất !!!!');">
                         @csrf
-                        <button type="submit" class="btn btn-danger">Delete Card</button>
+                        <button type="submit" class="btn btn-danger">Xóa thẻ</button>
+                    </form>
+                    <form action="{{ route('get.updatecard', ['id' => $user->id, 'cardId' => $card->id]) }}" method="GET">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Cập nhật</button>
                     </form>
                 </div>
                 @endforeach

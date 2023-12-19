@@ -17,7 +17,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                    User Information
+                    User Histories
                 </div>
                 <div class="card-body">
                     <ul>
@@ -28,11 +28,14 @@
                 </div>
                 @foreach ($cards as $card)
                 <h5>Card: {{ $card->id }}</h5>
-                @foreach ($card->histories as $history)
-                <p>Date: {{ $history->updated_at }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Status: {{ $history->status }}</p>
+                <ul>
+                    @foreach ($card->histories as $history)
+                    <li>
+                        <p>Date: {{ $history->updated_at }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Status: {{ $history->status }}</p>
+                    </li>
+                    @endforeach
+                </ul>
                 @endforeach
-                @endforeach
-
             </div>
         </div>
     </div>

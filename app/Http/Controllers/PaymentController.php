@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class PaymentController extends Controller
 {
     public function getPayment($id)
     {
-        return view('user.payment')->with(['id' => $id]);
+        if (Auth::check() && Auth::user()->id == $id) {
+            return view('user.payment')->with(['id' => $id]);
+        }
+        return redirect()->route('get.payment', ['id' => Auth::user()->id]);
     }
-    public function payment_momo(Request $request, $id)
+    public function paymentMomo(Request $request, $id)
+    {
+        if ($request->payment_type == 0)
+            return $this->paymentMomoCard($request, $id);
+        if ($request->payment_type == 1)
+            return $this->paymentMomoQr($request, $id);
+    }
+    protected function paymentMomoCard(Request $request, $id)
     {
         $request->validate([
             'amount' => ['required', 'numeric', 'min:10000', 'max:50000000'],
@@ -79,6 +91,34 @@ class PaymentController extends Controller
         // Handle the case where it's not a POST request
         return view('your_view_name');
     }
+
+    public function paymentMomoQr(Request $request, $id)
+    {
+        $request->validate([
+            'amount' => ['required', 'numeric', 'min:10000', 'max:50000000'],
+        ]);
+
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer 854f3a9c6c2481dca20d7f263b0249c6',
+            'Content-Type' => 'application/json',
+        ])->withoutVerifying()->post('https://bio.ziller.vn/api/qr/add', [
+            'type' => 'text',
+            'data' => "2|99|0336551596|NGUYỄN XUÂN TÙNG||0|0|{$request->amount}|NAP TIEN UIT PARKING|transfer_myqr",
+            'background' => 'rgb(255,255,255)',
+            'foreground' => 'rgb(0,0,0)',
+            'logo' => 'https://img.ziller.vn/ib/UOfPoi6MJ3.png'
+        ]);
+
+        $responseData = json_decode($response);
+        //dd($responseData);
+        $user = User::find($id);
+        if ($user) {
+            $user->balance += $request->amount;
+            $user->save();
+        }
+        return redirect()->route('get.payment', ['id' => $id, 'qr_code' => $responseData->link]);
+    }
     public function complete_momo(Request $request, $id, $amount)
     {
         if ($request->message == "Successful.") {
@@ -89,6 +129,6 @@ class PaymentController extends Controller
                 return redirect()->route('profile', ['id' => $id]);
             } else return response()->json(['message' => 'Not found'], 404);
         }
-        return redirect()->route('profile', ['id' => $id]);
+        return redirect()->route('profile', ['id' => $id,]);
     }
 }

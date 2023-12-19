@@ -22,4 +22,4 @@ Route::post('/createCard', [App\Http\Controllers\CardController::class, 'create'
 Route::get('/destroyCard', [App\Http\Controllers\CardController::class, 'destroy'])->name('destroy.card');
 
 Route::post('/action', [App\Http\Controllers\ActionController::class, 'control'])->name('control.inout');
-
+Route::post('/action2', [App\Http\Controllers\ActionController::class, 'control2'])->name('control2.inout');

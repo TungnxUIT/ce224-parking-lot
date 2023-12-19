@@ -41,6 +41,32 @@ class ActionController extends Controller
         } else return response()->json(['message' => 'Not Allowed to get out.', 'error'=>'Card uid and license plate are not match.']);
     }
 
+    public function control2(Request $request)
+    {
+        $request->validate([
+            'card_uid' => ['required'],
+        ]);
+
+        $card = Card::where('card_uid', $request->card_uid)->first();
+
+        if ($card) {
+            $user = $card->user;
+            $history = $card->histories->last();
+            if ($history == null) {
+                $this->createHistory($history, $card, null);
+                return response()->json(["user" => $user, 'message' => 'Allowed to get in']);
+            } else if ($history->status == 'Out') {
+                $this->createHistory($history, $card, $history->status);
+                return response()->json(["user" => $user, 'message' => 'Allowed to get in']);
+            } else if ($history->status == 'In') {
+                $message = $this->updateHistory($history, $card, $history->status);
+                if ($message == 1)
+                    return response()->json(["user" => $user, 'message' => 'Allowed to get out']);
+                else return response()->json(["user" => $user, 'message' => 'Not Allowed to get out.', 'error'=>'Not enough money in account.']);
+            }
+        } else return response()->json(['message' => 'Not Allowed to get out.', 'error'=>'Card uid is not registered']);
+    }
+
     protected function createHistory($history, $card, $status)
     {
         if ($status == null || $status == 'Out') {
